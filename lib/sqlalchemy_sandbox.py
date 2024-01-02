@@ -114,6 +114,27 @@ if __name__ == '__main__':
     print(student_count)
 
     # filtering; retrieving specific records
-    query = session.query(Student).filter(Student.name.like('%Alan%'), Student.grade == 1)
+    query = session.query(Student).filter(Student.name.like('%Alan%'), Student.grade == 11)
     for record in query:
         print(record.name)
+
+    # update() method
+    session.query(Student).update({
+        Student.grade: Student.grade + 1
+    })
+    print([(
+        student.name,
+        student.grade
+    ) for student in session.query(Student)])
+
+    #deleting a record
+    query = session.query(Student).filter(Student.name == "Elisha Kibet")
+    elisha_kibet = query.first()
+
+    # 'delete()
+    session.delete(elisha_kibet)
+    session.commit()
+
+    # check if deleted by trying to retrive the data again
+    elisha_kibet = query.first()
+    print(elisha_kibet)
